@@ -7,7 +7,7 @@
 ## Background Context 
 
 [![AirBNB-clone](https://img.youtube.com/vi/XRH_8w1DEGI/0.jpg)](https://youtu.be/XRH_8w1DEGI "AirBNB clone")
-
+<details open>
 ### First step: Write a command interpreter to manage the AirBnB objects.
 
 This is the first step towards building the first full web application: the AirBnB clone. This first step is very important because you will use what you build during this project with all other following projects: HTML/CSS templating, database storage, API, front-end integration…
@@ -47,7 +47,7 @@ __Read or watch__:
 By the end of this project, you should be able to [explain to anyone](https://fs.blog/feynman-learning-technique/) without the help of __Google__
 
 * [X] How to create a Python package
-* [ ] How to create a command interpreter in Python using the cmd module
+* [X] How to create a command interpreter in Python using the cmd module
 * [X] What is Unit testing and how to implement it in a large project
 * [X] How to serialize and deserialize a Class
 * [X] How to write and read a JSON file
@@ -139,3 +139,108 @@ All tests should also pass in non-interactive mode:``` $ echo "python3 -m unitte
 		* Otherwise:
 			* create `id` and `created_at` as you did previously (new instance)
 
+
+### Task 5
+ Now we can recreate a `BaseModel` from another one by using a dictionary representation:
+
+```
+<class 'BaseModel'> -> to_dict() -> <class 'dict'> -> <class 'BaseModel'>
+```
+
+It’s great but it’s still not persistent: every time you launch the program, you don’t restore all objects created before… The first way you will see here is to save these objects to a file.
+
+Writing the dictionary representation to a file won’t be relevant:
+
+-   Python doesn’t know how to convert a string to a dictionary (easily)
+-   It’s not human readable
+-   Using this file with another program in Python or other language will be hard.
+
+So, you will convert the dictionary representation to a JSON string. JSON is a standard representation of a data structure. With this format, humans can read and all programming languages have a JSON reader and writer.
+
+Now the flow of serialization-deserialization will be:
+
+```
+<class 'BaseModel'> -> to_dict() -> <class 'dict'> -> JSON dump -> <class 'str'> -> FILE -> <class 'str'> -> JSON load -> <class 'dict'> -> <class 'BaseModel'>
+```
+
+Magic right?
+
+Terms:
+
+-   **simple Python data structure**: Dictionaries, arrays, number and string. ex: `{ '12': { 'numbers': [1, 2, 3], 'name': "John" } }`
+-   **JSON string representation**: String representing a simple data structure in JSON format. ex: `'{ "12": { "numbers": [1, 2, 3], "name": "John" } }'`
+
+Write a class `FileStorage` that serializes instances to a JSON file and deserializes JSON file to instances:
+
+-   `models/engine/file_storage.py`
+-   Private class attributes:
+    -   `__file_path`: string - path to the JSON file (ex: `file.json`)
+    -   `__objects`: dictionary - empty but will store all objects by `<class name>.id` (ex: to store a `BaseModel` object with `id=12121212`, the key will be `BaseModel.12121212`)
+-   Public instance methods:
+    -   `all(self)`: returns the dictionary `__objects`
+    -   `new(self, obj)`: sets in `__objects` the `obj` with key `<obj class name>.id`
+    -   `save(self)`: serializes `__objects` to the JSON file (path: `__file_path`)
+    -   `reload(self)`: deserializes the JSON file to `__objects` (only if the JSON file (`__file_path`) exists ; otherwise, do nothing. If the file doesn’t exist, no exception should be raised)
+
+Update `models/__init__.py`: to create a unique `FileStorage` instance for your application
+
+-   import `file_storage.py`
+-   create the variable `storage`, an instance of `FileStorage`
+-   call `reload()` method on this variable
+
+Update `models/base_model.py`: to link your `BaseModel` to `FileStorage` by using the variable `storage`
+
+-   import the variable `storage`
+-   in the method `save(self)`:
+    -   call `save(self)` method of `storage`
+-   `__init__(self, *args, **kwargs)`:
+    -   if it’s a new instance (not from a dictionary representation), add a call to the method `new(self)` on `storage`
+
+```
+guillaume@ubuntu:~/AirBnB$ cat test_save_reload_base_model.py
+#!/usr/bin/python3
+from models import storage
+from models.base_model import BaseModel
+
+all_objs = storage.all()
+print("-- Reloaded objects --")
+for obj_id in all_objs.keys():
+    obj = all_objs[obj_id]
+    print(obj)
+
+print("-- Create a new object --")
+my_model = BaseModel()
+my_model.name = "My_First_Model"
+my_model.my_number = 89
+my_model.save()
+print(my_model)
+
+guillaume@ubuntu:~/AirBnB$ cat file.json
+cat: file.json: No such file or directory
+guillaume@ubuntu:~/AirBnB$ 
+guillaume@ubuntu:~/AirBnB$ ./test_save_reload_base_model.py
+-- Reloaded objects --
+-- Create a new object --
+[BaseModel] (ee49c413-023a-4b49-bd28-f2936c95460d) {'my_number': 89, 'updated_at': datetime.datetime(2017, 9, 28, 21, 7, 25, 47381), 'created_at': datetime.datetime(2017, 9, 28, 21, 7, 25, 47372), 'name': 'My_First_Model', 'id': 'ee49c413-023a-4b49-bd28-f2936c95460d'}
+guillaume@ubuntu:~/AirBnB$ 
+guillaume@ubuntu:~/AirBnB$ cat file.json ; echo ""
+{"BaseModel.ee49c413-023a-4b49-bd28-f2936c95460d": {"my_number": 89, "__class__": "BaseModel", "updated_at": "2017-09-28T21:07:25.047381", "created_at": "2017-09-28T21:07:25.047372", "name": "My_First_Model", "id": "ee49c413-023a-4b49-bd28-f2936c95460d"}}
+guillaume@ubuntu:~/AirBnB$
+guillaume@ubuntu:~/AirBnB$ ./test_save_reload_base_model.py
+-- Reloaded objects --
+[BaseModel] (ee49c413-023a-4b49-bd28-f2936c95460d) {'name': 'My_First_Model', 'id': 'ee49c413-023a-4b49-bd28-f2936c95460d', 'updated_at': datetime.datetime(2017, 9, 28, 21, 7, 25, 47381), 'my_number': 89, 'created_at': datetime.datetime(2017, 9, 28, 21, 7, 25, 47372)}
+-- Create a new object --
+[BaseModel] (080cce84-c574-4230-b82a-9acb74ad5e8c) {'name': 'My_First_Model', 'id': '080cce84-c574-4230-b82a-9acb74ad5e8c', 'updated_at': datetime.datetime(2017, 9, 28, 21, 7, 51, 973308), 'my_number': 89, 'created_at': datetime.datetime(2017, 9, 28, 21, 7, 51, 973301)}
+guillaume@ubuntu:~/AirBnB$ 
+guillaume@ubuntu:~/AirBnB$ ./test_save_reload_base_model.py
+-- Reloaded objects --
+[BaseModel] (080cce84-c574-4230-b82a-9acb74ad5e8c) {'id': '080cce84-c574-4230-b82a-9acb74ad5e8c', 'updated_at': datetime.datetime(2017, 9, 28, 21, 7, 51, 973308), 'created_at': datetime.datetime(2017, 9, 28, 21, 7, 51, 973301), 'name': 'My_First_Model', 'my_number': 89}
+[BaseModel] (ee49c413-023a-4b49-bd28-f2936c95460d) {'id': 'ee49c413-023a-4b49-bd28-f2936c95460d', 'updated_at': datetime.datetime(2017, 9, 28, 21, 7, 25, 47381), 'created_at': datetime.datetime(2017, 9, 28, 21, 7, 25, 47372), 'name': 'My_First_Model', 'my_number': 89}
+-- Create a new object --
+[BaseModel] (e79e744a-55d4-45a3-b74a-ca5fae74e0e2) {'id': 'e79e744a-55d4-45a3-b74a-ca5fae74e0e2', 'updated_at': datetime.datetime(2017, 9, 28, 21, 8, 6, 151750), 'created_at': datetime.datetime(2017, 9, 28, 21, 8, 6, 151711), 'name': 'My_First_Model', 'my_number': 89}
+guillaume@ubuntu:~/AirBnB$ 
+guillaume@ubuntu:~/AirBnB$ cat file.json ; echo ""
+{"BaseModel.e79e744a-55d4-45a3-b74a-ca5fae74e0e2": {"__class__": "BaseModel", "id": "e79e744a-55d4-45a3-b74a-ca5fae74e0e2", "updated_at": "2017-09-28T21:08:06.151750", "created_at": "2017-09-28T21:08:06.151711", "name": "My_First_Model", "my_number": 89}, "BaseModel.080cce84-c574-4230-b82a-9acb74ad5e8c": {"__class__": "BaseModel", "id": "080cce84-c574-4230-b82a-9acb74ad5e8c", "updated_at": "2017-09-28T21:07:51.973308", "created_at": "2017-09-28T21:07:51.973301", "name": "My_First_Model", "my_number": 89}, "BaseModel.ee49c413-023a-4b49-bd28-f2936c95460d": {"__class__": "BaseModel", "id": "ee49c413-023a-4b49-bd28-f2936c95460d", "updated_at": "2017-09-28T21:07:25.047381", "created_at": "2017-09-28T21:07:25.047372", "name": "My_First_Model", "my_number": 89}}
+guillaume@ubuntu:~/AirBnB$ 
+```
+</details>
