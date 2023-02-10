@@ -74,6 +74,3 @@ class BaseModel():
 
         # Return the instance
         return cls(**dict_a)
-    
-
-
