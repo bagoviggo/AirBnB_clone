@@ -33,11 +33,12 @@ class HBNBCommand(cmd.Cmd):
         Do nothing when an empty line is entered.
         """
         pass
-    
-    def do_create(self, line):
-        """
-        Creates a new instance of BaseModel, saves it (to the JSON file) and prints the id
-        """
+
+        def do_create(self, line):
+            """
+            Creates a new instance of BaseModel, saves it (to the JSON file)
+            and prints the id
+            """
         lines = line.split()
         if not line:
             print("** class name missing **")
@@ -52,7 +53,8 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, line):
         """
-        Prints the string representation of an instance based on the class name and id
+        Prints the string representation of an instance based
+        on the class name and id
         """
         lines = line.split()
         if not line:
@@ -99,26 +101,28 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, line):
         """
-        Prints all string representation of all instances based or not on the class name
+        Prints all string representation of all instances based
+        or not on the class name
         """
         lines = line.split()
         if not line:
             for key, value in models.storage.all().items():
-                    k = key.split(".")
-                    output = "[{}] ({}) {}"".format(k[0], k[1], value)
-                    print(output)
+                k = key.split(".")
+                output = "[{}] ({}) {}".format(k[0], k[1], value)
+                print(output)
         elif lines[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
         else:
             for key, value in models.storage.all().items():
-                    k = key.split(".")
-                    output = "[{}] ({}) {}"".format(k[0], k[1], value)
-                    print(output)
+                k = key.split(".")
+                output = "[{}] ({}) {}".format(k[0], k[1], value)
+                print(output)
 
     def do_update(self, line):
         """
-        Updates an instance based on the class name and id by adding or updating attribute
+        Updates an instance based on the class name
+        and id by adding or updating attribute
         """
         lines = line.split()
         if not line:
@@ -154,8 +158,6 @@ class HBNBCommand(cmd.Cmd):
                         except ValueError:
                             value[lines[2]] = str(lines[3])
                     models.storage.save()
-
-            
 
 
 if __name__ == '__main__':
