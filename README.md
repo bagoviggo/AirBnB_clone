@@ -108,7 +108,7 @@ Authors
 
 License
 
-<details open>
+<details>
 	
 ### First step: Write a command interpreter to manage the AirBnB objects.
 
