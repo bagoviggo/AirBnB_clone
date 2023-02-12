@@ -15,7 +15,7 @@ class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
     intro = "Welcome to the HBNB console! Type help or ? to list commands\n"
 
-    classes = ["BaseModel", "User", "State", "City", "Amenity", "Place",]
+    classes = ["BaseModel", "User", "State", "City", "Amenity", "Place"]
 
     def do_quit(self, line):
         """
@@ -34,7 +34,7 @@ class HBNBCommand(cmd.Cmd):
         Do nothing when an empty line is entered.
         """
         pass
-    
+
     def do_create(self, line):
         from models.user import User
         from models.state import State
@@ -57,6 +57,7 @@ class HBNBCommand(cmd.Cmd):
             new_instance = eval(lines[0])()
             new_instance.save()
             print(new_instance.id)
+
     def do_show(self, line):
         """
         Prints the string representation of an instance based
