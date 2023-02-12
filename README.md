@@ -3,11 +3,113 @@
 ![hbnb](./hbtn.png)
 
 ## About
+HBNB Console
+
+This is a command-line interface for the Holberton School's AirBnB clone project, allowing the user to manage their database of objects.
 
 ## Background Context 
 
 [![AirBNB-clone](https://img.youtube.com/vi/XRH_8w1DEGI/0.jpg)](https://youtu.be/XRH_8w1DEGI "AirBNB clone")
+
+## Getting Started
+To get started with the HBNB Console, clone the repository and install the requirements.
+
+```
+$ git clone https://github.com/username/AirBnB_clone.git
+$ cd AirBnB_clone
+$ pip install -r requirements.txt
+```
+Usage
+
+To start the HBNB Console, run console.py with Python3.
+
+bash
+```
+$ ./console.py
+```
+The console prompt will appear as follows:
+
+
+```
+File not found
+Welcome to the HBNB console!
+(hbnb) 
+```
+The following commands are available to manage the database of objects:
+
+## quit
+Exit the program.
+
+bash
+```
+(hbnb) quit
+$
+```
+## EOF
+
+Exit the console using EOF (Ctrl-D).
+
+
+```
+(hbnb) Ctrl-D
+$
+```
+## create
+
+Creates a new instance of BaseModel, saves it (to the JSON file), and prints the id.
+
+
+```
+(hbnb) create BaseModel
+bba240d3-3a3a-41c8-9c12-cfdb2641cf06
+```
+## show
+
+Prints the string representation of an instance based on the class name and id.
+
+
+```
+(hbnb) show BaseModel bba240d3-3a3a-41c8-9c12-cfdb2641cf06
+[BaseModel] (bba240d3-3a3a-41c8-9c12-cfdb2641cf06) {'id': 'bba240d3-3a3a-41c8-9c12-cfdb2641cf06', 'created_at': datetime.datetime(2023, 2, 11, 15, 6, 22, 758157), 'updated_at': datetime.datetime(2023, 2, 11, 15, 6, 22, 758199)}
+```
+## destroy
+
+Deletes an instance based on the class name and id.
+
+
+```
+(hbnb) destroy BaseModel bba240d3-3a3a-41c8-9c12-cfdb2641cf06
+```
+## all
+
+Prints all string representation of all instances based or not on the class name.
+
+bash
+```
+(hbnb) all BaseModel
+[BaseModel] (3f3b3c3a-c1b8-4c5d-9d39-23212e99cbf8) {'id': '3f3b3c3a-c1b8-4c5d-9d39-23212e99cbf8', 'created_at': datetime.datetime(2023, 2, 11, 15, 6, 36, 975983), 'updated_at': datetime.datetime(2023, 2, 11, 15, 6, 36, 975996)}
+```
+## update
+
+Updates an instance based on the class name and id by adding or updating attribute.
+
+bash
+```
+(hbnb) update BaseModel 3f3b3c3a-c1b8-4c5d-9d39-23212e99cbf8 first_name "Betty"
+```
+Built With
+
+    Python3
+
+Authors
+
+    Roy Kiplagat bagoviggo@gmail.com
+    Tony Maiyo 
+
+License
+
 <details open>
+	
 ### First step: Write a command interpreter to manage the AirBnB objects.
 
 This is the first step towards building the first full web application: the AirBnB clone. This first step is very important because you will use what you build during this project with all other following projects: HTML/CSS templating, database storage, API, front-end integration…
