@@ -1,6 +1,5 @@
-"""
-This module implements the HBNB console.
-"""
+#!/usr/bin/python3
+# base_models.py
 
 import cmd
 from models.base_model import BaseModel
@@ -29,16 +28,17 @@ class HBNBCommand(cmd.Cmd):
         """
         return True
 
-    def emptyline(self, line):
+    def emptyline(self):
         """
         Do nothing when an empty line is entered.
         """
         pass
-    
-    def do_create(self, line):
-        """
-        Creates a new instance of BaseModel, saves it (to the JSON file) and prints the id
-        """
+
+        def do_create(self, line):
+            """
+            Creates a new instance of BaseModel, saves it (to the JSON file)
+            and prints the id
+            """
         lines = line.split()
         if not line:
             print("** class name missing **")
@@ -53,7 +53,8 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, line):
         """
-        Prints the string representation of an instance based on the class name and id
+        Prints the string representation of an instance based
+        on the class name and id
         """
         lines = line.split()
         if not line:
@@ -66,9 +67,13 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
             return
         else:
-            key = lines[0] + "." + lines[1]
-            if key in models.storage.all():
-                print(models.storage.all()[key])
+            keys = lines[0] + "." + lines[1]
+            for key, value in models.storage.all().items():
+                if key == keys:
+                    k = key.split(".")
+                    output = "[{}] ({}) {}".format(k[0], k[1], value)
+                    print(output)
+                    break
             else:
                 print("** no instance found **")
 
@@ -96,23 +101,28 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, line):
         """
-        Prints all string representation of all instances based or not on the class name
+        Prints all string representation of all instances based
+        or not on the class name
         """
         lines = line.split()
         if not line:
             for key, value in models.storage.all().items():
-                print(value)
+                k = key.split(".")
+                output = "[{}] ({}) {}".format(k[0], k[1], value)
+                print(output)
         elif lines[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
         else:
             for key, value in models.storage.all().items():
-                if lines[0] in key:
-                    print(value)
+                k = key.split(".")
+                output = "[{}] ({}) {}".format(k[0], k[1], value)
+                print(output)
 
     def do_update(self, line):
         """
-        Updates an instance based on the class name and id by adding or updating attribute
+        Updates an instance based on the class name
+        and id by adding or updating attribute
         """
         lines = line.split()
         if not line:
@@ -125,8 +135,8 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
             return
         else:
-            key = lines[0] + "." + lines[1]
-            if key not in models.storage.all():
+            keys = lines[0] + "." + lines[1]
+            if keys not in models.storage.all():
                 print("** no instance found **")
                 return
             elif len(lines) < 3:
@@ -136,8 +146,18 @@ class HBNBCommand(cmd.Cmd):
                 print("** value missing **")
                 return
             else:
-                setattr(models.storage.all()[key], lines[2], lines[3])
-                models.storage.save()
+                keys = ".".join([lines[0], lines[1]])
+                value = models.storage.all().get(keys)
+
+                if value is not None:
+                    try:
+                        value[lines[2]] = int(lines[3])
+                    except ValueError:
+                        try:
+                            value[lines[2]] = float(lines[3])
+                        except ValueError:
+                            value[lines[2]] = str(lines[3])
+                    models.storage.save()
 
 
 if __name__ == '__main__':
