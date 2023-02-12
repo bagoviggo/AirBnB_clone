@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 # base_models.py
 
+"""This module defines the HBNBCommand class"""
 import cmd
 from models.base_model import BaseModel
 import models
@@ -14,7 +15,7 @@ class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
     intro = "Welcome to the HBNB console! Type help or ? to list commands\n"
 
-    classes = ["BaseModel"]
+    classes = ["BaseModel", "User", "State", "City", "Amenity", "Place",]
 
     def do_quit(self, line):
         """
@@ -33,12 +34,18 @@ class HBNBCommand(cmd.Cmd):
         Do nothing when an empty line is entered.
         """
         pass
-
-        def do_create(self, line):
-            """
-            Creates a new instance of BaseModel, saves it (to the JSON file)
-            and prints the id
-            """
+    
+    def do_create(self, line):
+        from models.user import User
+        from models.state import State
+        from models.city import City
+        from models.amenity import Amenity
+        from models.place import Place
+        from models.review import Review
+        """
+        Creates a new instance of BaseModel, saves it (to the JSON file)
+        and prints the id
+        """
         lines = line.split()
         if not line:
             print("** class name missing **")
@@ -50,7 +57,6 @@ class HBNBCommand(cmd.Cmd):
             new_instance = eval(lines[0])()
             new_instance.save()
             print(new_instance.id)
-
     def do_show(self, line):
         """
         Prints the string representation of an instance based
