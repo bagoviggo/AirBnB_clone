@@ -5,6 +5,7 @@
 import cmd
 from models.base_model import BaseModel
 import models
+import sys
 
 
 class HBNBCommand(cmd.Cmd):
@@ -13,7 +14,6 @@ class HBNBCommand(cmd.Cmd):
     """
 
     prompt = "(hbnb) "
-    intro = "Welcome to the HBNB console! Type help or ? to list commands\n"
 
     classes = ["BaseModel", "User", "State", "City", "Amenity", "Place"]
 
@@ -21,12 +21,14 @@ class HBNBCommand(cmd.Cmd):
         """
         Quit command to exit the program.
         """
+        sys.stderr.write("Quitting HBNB Console\n")
         return True
 
     def do_EOF(self, line):
         """
         Exit the console using EOF (Ctrl-D).
         """
+        sys.stderr.write("\n")
         return True
 
     def emptyline(self):
