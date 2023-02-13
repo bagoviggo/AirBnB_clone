@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 # models/user.py
 
 """This module inherits from BaseModel"""

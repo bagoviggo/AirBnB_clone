@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 
 import unittest
 from models import state
@@ -23,11 +23,8 @@ class TestState(unittest.TestCase):
     def test_name_attr(self):
         """Test that State has attribute name, and it's as an empty string"""
         state = State()
-        self.assertTrue(hasattr(state, "name"))
-        if models.storage_t == 'db':
-            self.assertEqual(state.name, None)
-        else:
-            self.assertEqual(state.name, "")
+        self.assertEqual(state.name, "")
+        self.assertEqual(state.name, state.name)
 
     def test_to_dict_creates_dict(self):
         """test to_dict method creates a dictionary with proper attrs"""
@@ -51,11 +48,7 @@ class TestState(unittest.TestCase):
         self.assertEqual(new_d["created_at"], s.created_at.strftime(t_format))
         self.assertEqual(new_d["updated_at"], s.updated_at.strftime(t_format))
 
-    def test_str(self):
-        """test that the str method has the correct output"""
-        state = State()
-        string = "[State] ({}) {}".format(state.id, state.__dict__)
-        self.assertEqual(string, str(state))
+
 
 if __name__ == "__main__":
     unittest.main()

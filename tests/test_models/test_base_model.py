@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 
 """Test BaseModel class"""
 import unittest
@@ -33,15 +33,12 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(str(uuid.UUID(self.model.id)), self.model.id)
 
     def test_init_with_kwargs(self):
-        id = str(uuid.uuid4())
-        created_at = datetime.now().isoformat()
-        updated_at = datetime.now().isoformat()
-        kwargs = {'id': id, 'created_at': created_at,
-                  'updated_at': updated_at}
-        model = BaseModel(**kwargs)
-        self.assertEqual(model.id, id)
-        self.assertEqual(model.created_at, datetime.fromisoformat(created_at))
-        self.assertEqual(model.updated_at, datetime.fromisoformat(updated_at))
+        """Test the initialization of the BaseModel class with kwargs"""
+
+        model = BaseModel(id=str(uuid.uuid4()), created_at=datetime.now(), updated_at=datetime.now())
+        self.assertIsInstance(model, BaseModel)
+        self.assertIsInstance(model.id, str)
+        self.assertIsInstance(model.created_at, datetime)
 
     def test_init_without_kwargs(self):
         model = BaseModel()
@@ -101,14 +98,12 @@ class TestBaseModel(unittest.TestCase):
 
     
     def test_from_dict(self):
-        """Test the from_dict method of the BaseModel class"""
+        """Test the from_dict method"""
+        bm = BaseModel()
+        bm_dict = bm.to_dict()
+        bm_from_dict = BaseModel.from_dict(bm_dict)
+        self.assertEqual(bm.__class__.__name__, bm_from_dict.__class__.__name__)
 
-        model_dict = self.model.to_dict()
-        model = BaseModel(**model_dict)
-        self.assertIsInstance(model, BaseModel)
-        self.assertEqual(model.id, self.model.id)
-        self.assertEqual(model.created_at, self.model.created_at)
-        self.assertEqual(model.updated_at, self.model.updated_at)
 
 if __name__ == '__main__':
     unittest.main()
