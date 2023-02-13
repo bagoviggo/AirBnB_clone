@@ -5,6 +5,7 @@
 import cmd
 from models.base_model import BaseModel
 import models
+import sys
 
 
 class HBNBCommand(cmd.Cmd):
@@ -13,7 +14,6 @@ class HBNBCommand(cmd.Cmd):
     """
 
     prompt = "(hbnb) "
-    intro = "Welcome to the HBNB console! Type help or ? to list commands\n"
 
     classes = ["BaseModel", "User", "State", "City", "Amenity", "Place"]
 
@@ -21,12 +21,14 @@ class HBNBCommand(cmd.Cmd):
         """
         Quit command to exit the program.
         """
+        sys.stderr.write("Exiting HBNB project\n")
         return True
 
     def do_EOF(self, line):
         """
         Exit the console using EOF (Ctrl-D).
         """
+        sys.stderr.write("\n")
         return True
 
     def emptyline(self):
@@ -36,16 +38,17 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, line):
+        """
+        Creates a new instance of BaseModel, saves it (to the JSON file)
+        and prints the id
+        """
         from models.user import User
         from models.state import State
         from models.city import City
         from models.amenity import Amenity
         from models.place import Place
         from models.review import Review
-        """
-        Creates a new instance of BaseModel, saves it (to the JSON file)
-        and prints the id
-        """
+
         lines = line.split()
         if not line:
             print("** class name missing **")
