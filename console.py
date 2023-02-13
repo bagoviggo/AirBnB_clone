@@ -28,7 +28,7 @@ class HBNBCommand(cmd.Cmd):
         """
         Exit the console using EOF (Ctrl-D).
         """
-        sys.stderr.write("\n")
+        sys.stderr.write("End of File\n")
         return True
 
     def emptyline(self):
