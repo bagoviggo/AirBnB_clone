@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 # file_storage.py
 
 """Defines a FileStorage class that that serializes instances
@@ -36,4 +36,4 @@ class FileStorage():
             with open(FileStorage.__file_path, "r") as f:
                 FileStorage.__objects = json.load(f)
         except FileNotFoundError:
-            pass
+            print("File not found")

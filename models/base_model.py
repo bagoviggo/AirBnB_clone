@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 # base_models.py
 
 """Defines a  base class for all the other classes in this project"""

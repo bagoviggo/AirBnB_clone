@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 # base_models.py
 
 """This module defines the HBNBCommand class"""

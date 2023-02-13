@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 from engine.file_storage import FileStorage
 storage = FileStorage()
 storage.reload()
