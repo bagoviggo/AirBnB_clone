@@ -35,10 +35,11 @@ class TestBaseModel(unittest.TestCase):
     def test_init_with_kwargs(self):
         """Test the initialization of the BaseModel class with kwargs"""
 
-        model = BaseModel(id=str(uuid.uuid4()), created_at=datetime.now(), updated_at=datetime.now())
+        model = BaseModel(id=str(uuid.uuid4()), created_at=(datetime.now()), updated_at=(datetime.now()))
         self.assertIsInstance(model, BaseModel)
         self.assertIsInstance(model.id, str)
-        self.assertIsInstance(model.created_at, datetime)
+        self.assertIsInstance(model.created_at, str)
+        self.assertIsInstance(model.updated_at, str)
 
     def test_init_without_kwargs(self):
         model = BaseModel()

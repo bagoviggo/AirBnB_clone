@@ -23,9 +23,11 @@ class TestAmenity(unittest.TestCase):
 
     def test_str(self):
         """Test __str__ method of Amenity"""
-        amenity = Amenity(name="Pool")
+        bm = BaseModel()
+        amenity = Amenity(bm)
         string = "[Amenity] ({}) {}".format(amenity.id, amenity.__dict__)
         self.assertEqual(str(amenity), string)
+
 
 
 if __name__ == "__main__":
