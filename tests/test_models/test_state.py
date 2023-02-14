@@ -4,8 +4,7 @@ import unittest
 from models import state
 from models.base_model import BaseModel
 State = state.State
-import models
-from datetime import datetime
+
 
 """Test for state"""
 
@@ -47,7 +46,6 @@ class TestState(unittest.TestCase):
         self.assertEqual(type(new_d["updated_at"]), str)
         self.assertEqual(new_d["created_at"], s.created_at.strftime(t_format))
         self.assertEqual(new_d["updated_at"], s.updated_at.strftime(t_format))
-
 
 
 if __name__ == "__main__":

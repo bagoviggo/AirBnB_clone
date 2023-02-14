@@ -49,7 +49,6 @@ class TestBaseModel(unittest.TestCase):
         self.assertIsNotNone(model.updated_at)
         self.assertIsInstance(model.updated_at, datetime)
 
-
     def test_id(self):
         """Test the id of the BaseModel class"""
         bm = BaseModel()
@@ -64,7 +63,6 @@ class TestBaseModel(unittest.TestCase):
     def test_updated_at(self):
         """Test the updated_at of the BaseModel class"""
         self.assertIsInstance(self.model.updated_at, datetime)
-
 
     def test_str(self):
         """Test the str method of the BaseModel class
@@ -85,6 +83,7 @@ class TestBaseModel(unittest.TestCase):
 
     def test_to_dict(self):
         """Test the to_dict method of the BaseModel class"""
+
         self.model = BaseModel()
         model_dict = self.model.to_dict()
         self.assertIsInstance(model_dict, dict)
@@ -95,8 +94,6 @@ class TestBaseModel(unittest.TestCase):
         self.assertIsInstance(model_dict['created_at'], str)
         self.assertIsInstance(model_dict['updated_at'], str)
 
-
-    
     def test_from_dict(self):
         """Test the from_dict method"""
         bm = BaseModel()

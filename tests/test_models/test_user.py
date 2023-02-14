@@ -8,6 +8,7 @@ from datetime import datetime
 from models.user import User
 from models.base_model import BaseModel
 
+
 class TestUser(unittest.TestCase):
     """Test the User class"""
 
@@ -30,8 +31,6 @@ class TestUser(unittest.TestCase):
         self.assertTrue(hasattr(self.user, "first_name"))
         self.assertTrue(hasattr(self.user, "last_name"))
 
-
-
     def test_str(self):
         """Test the string representation of the User class"""
         string = f"[User] ({self.user.id}) {self.user.__dict__}"
@@ -52,7 +51,6 @@ class TestUser(unittest.TestCase):
     def test_last_name_attribute(self):
         """Test the last_name attribute of User class"""
         self.assertEqual(self.user.last_name, "")
-
 
 
 if __name__ == "__main__":

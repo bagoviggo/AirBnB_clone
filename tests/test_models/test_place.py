@@ -6,6 +6,7 @@ import unittest
 from models.place import Place
 from models.base_model import BaseModel
 
+
 class TestPlace(unittest.TestCase):
     """
     Test cases for Place
@@ -47,6 +48,7 @@ class TestPlace(unittest.TestCase):
         self.assertTrue("id" in place_str)
         self.assertTrue("created_at" in place_str)
         self.assertTrue("updated_at" in place_str)
+
 
 if __name__ == '__main__':
     unittest.main()

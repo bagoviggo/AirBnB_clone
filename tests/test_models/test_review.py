@@ -5,6 +5,7 @@ import unittest
 from models.review import Review
 from models.base_model import BaseModel
 
+
 class TestReview(unittest.TestCase):
     """Test cases for Review class"""
 
@@ -29,6 +30,7 @@ class TestReview(unittest.TestCase):
         r = Review()
         s = "[Review] ({}) {}".format(r.id, r.__dict__)
         self.assertEqual(str(r), s)
+
 
 if __name__ == '__main__':
     unittest.main()
