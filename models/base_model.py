@@ -33,8 +33,6 @@ class BaseModel():
             self.updated_at = datetime.now()
             storage.new(self)
 
-
-
     def __str__(self):
         """Returns a string that prints the format
             [<class name>] (<self.id>) <self.__dict__>
