@@ -1,20 +1,14 @@
 footer {
-    color: #ffffff;
     height: 60px;
     width: 100%;
     text-align: center;
     position: fixed;
     bottom: 0;
-    border-top: solid;
     border-top-width: 1px;
-    border-top-color: #CCCCCC;
-
+    border-color: #CCCCCC;
+    border-top: solid;
 }
 
 footer p {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-  }
-  
+    vertical-align: middle;
+}

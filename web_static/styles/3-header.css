@@ -1,11 +1,13 @@
 header {
-    color: #ffffff;
     height: 70px;
     width: 100%;
+    border-bottom-width: 1px;
+    border-color: #CCCCCC;
     border-bottom: solid;
-    border-bottom-width : 1px;
-    border-bottom-color: #CCCCCC;
 }
-svg {
+
+.logo{
+    content: url(../images/logo.png);
     margin-left: 20px;
+    vertical-align: middle;
 }
