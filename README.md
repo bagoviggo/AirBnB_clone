@@ -31,7 +31,6 @@ The console prompt will appear as follows:
 
 
 ```
-File not found
 Welcome to the HBNB console!
 (hbnb) 
 ```
